@@ -1,6 +1,7 @@
 package tienda;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 public interface Database {
@@ -25,11 +26,18 @@ public interface Database {
 	public void 	setCuentas (float total) throws Exception;
 	
 	/**
-	 * Devuelve una lista de los productos disponibles en la BD para ser impresa
+	 * Devuelve una lista de los productos disponibles en la BD
+	 * @return Lista con el inventario
+	 * @throws SQLException 
+	 */
+	public List<Producto> 	getInventario () throws SQLException;
+	
+	/**
+	 * Devuelve un String con la lista de los productos disponibles en la BD
 	 * @return String con el inventario
 	 * @throws SQLException 
 	 */
-	public String 	getInventario () throws SQLException;
+	public String inventarioToString() throws SQLException;
 	
 	/**
 	 * Elimina un producto con la id proporcionada del inventario

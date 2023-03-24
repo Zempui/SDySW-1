@@ -1,5 +1,7 @@
 package tienda;
 import java.sql.*;
+import java.util.List;
+import java.util.LinkedList;
 
 
 public class DatabaseImpl implements Database {
@@ -107,7 +109,18 @@ public class DatabaseImpl implements Database {
 	}
 	
 	@Override
-	public String getInventario() throws SQLException {
+	public List<Producto> getInventario() throws SQLException {
+		List<Producto> resultado = new LinkedList<Producto>();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
+		while (rs.next()) {
+			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
+			resultado.add(producto);
+		}
+		return resultado;
+	}
+	
+	@Override
+	public String inventarioToString() throws SQLException {
 		String resultado = "◢__ID__.________NOMBRE________.__PRECIO__._CANTIDAD_◣";
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
