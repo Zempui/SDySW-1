@@ -1,6 +1,8 @@
 package tienda;
+import java.io.Serializable;
 
-public class ProductoImpl implements Producto {
+public class ProductoImpl implements Producto, Serializable {
+	private static final long serialVersionUID = 1L;
 	private float precio;
 	private String nombre;
 	public ProductoImpl(float precio, String nombre) {
