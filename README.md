@@ -2,12 +2,12 @@
 
 ### Instrucciones de compilación/ejecución
 - Descargar la última versión del controlador para [SQLite-JDBC](https://github.com/xerial/sqlite-jdbc/releases) (el archivo `.jar`)
-- Colocar dicho archivo en la carpeta del usuario actual, por ejemplo, `/home/salas/`
-- En caso de utilizar Eclipse IDE, abrir la carpeta descargada de este repositorio como proyecto Java. (se recomienda utilizar como workspace la carpeta `/home/salas/`)
-- En caso de no estar utilizando el usuario "salas", en Eclipse, hacer click derecho en el proyecto "Tienda" -> Resource -> Java Build Path y añadir el `.jar` que nos hemos descargado.
-- Una vez hemos completado los preparativos, para ejecutar el programa habrá que ejecutar un servidor (`tienda.server.serverTienda`) y uno o varios clientes (`tienda.client.ClienteMain`). Para ello, habrá que hacer click derecho en el archivo correspondiente -> "run as" -> "run configuration" y hacer lo siguiente:
-  - En `serverTienda.java`, añadir en "Program arguments" el número de puerto seleccionado con rmiregistry[^1] y en "VM argumens" la línea `-Djava.security.policy=<Workspace>/bin/tienda/server/servidor.permisos`, sustituyendo "Workspace" por el directorio de trabajo de Eclipse (en nuestro caso, `/home/salas/Tienda`) 
-  - En `ClienteMain.java`, añadir en "Program arguments" la IP del servidor (`localhost` en caso de ejecutarse todo en la misma máquina) y el puerto correspondiente y en "VM argumens" la línea `-Djava.security.policy=<Workspace>/bin/tienda/server/cliente.permisos`, sustituyendo "Workspace" por el directorio de trabajo de Eclipse (en nuestro caso, `/home/salas/Tienda`) 
+- Colocar dicho archivo en la carpeta del usuario actual (`~`), por ejemplo, `/home/salas/`
+- Descargar el archivo Zip "SDySW-1.zip" y descomprimirlo en la carpeta del usuario actual (`~`)
+- Situarse en `~/SDySW/src/` y realizar la orden `javac -cp ~/sqlite-jdbc-3.40.0.0.jar:. *.java -d ../bin/` para compilar todos los archivos
+- Una vez compilados, seleccionar un puerto para operar con rmiregistry[^1] y proceder con la ejecución
+  - Para ejecutar el servidor, situarse en `~/SDySW/bin/` y utilizar la orden `java -cp ~/sqlite-jdbc-3.40.0.0.jar:. -Djava.security.policy=servidor.permisos serverTienda <num puerto>`
+  - Para ejecutar el cliente, situarse en `~/SDySW/bin/` y utilizar la orden`java -cp ~/sqlite-jdbc-3.40.0.0.jar:. -Djava.security.policy=cliente.permisos ClienteMain localhost <num puerto>`
 
-[^1]: Previamente, se debe hacer ejecutado la orden `rmiregistry <num puerto> &`
+[^1]: La orden rmiregistry sigue el formato `rmiregistry <num puerto> &` y deberá ejecutarse en `~/SDySW/bin/`
 
