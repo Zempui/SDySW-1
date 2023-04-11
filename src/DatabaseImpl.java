@@ -84,12 +84,13 @@ public class DatabaseImpl implements Database {
 		float total = 0.0f;
 		ResultSet rs = stmt.executeQuery("SELECT TOTAL FROM CUENTAS WHERE ID=0");
 		total = rs.getFloat("TOTAL");
-
+		System.out.println("getCuentas() -> "+total+" €");
 		return total;
 	}
 
 	@Override
 	public void updateCuentas (float cambio) throws CuentaException, Exception{
+		System.out.println("updateCuentas() -> "+cambio+" €");
 		float cuenta = this.getCuentas();
 		if((0-cambio) > cuenta) 
 			throw new CuentaException("se ha intentado extraer una cantidad ("+cambio+") superior al dinero almacenado ("+cuenta+").");
@@ -97,10 +98,12 @@ public class DatabaseImpl implements Database {
 		float total =cuenta+cambio;
 		stmt.executeUpdate("UPDATE CUENTAS SET TOTAL="+total+" WHERE ID=0;");
 		
+		
 	}
 	
 	@Override
 	public void setCuentas(float total) throws Exception{
+		System.out.println("setCuentas() -> "+total+" €");
 		if(total >= 0.0f) {
 			try {
 				stmt.executeUpdate("INSERT INTO CUENTAS (ID, TOTAL)"
@@ -114,6 +117,7 @@ public class DatabaseImpl implements Database {
 		}else {
 			throw new CuentaException("setCuentas -> "+total+" < 0");
 		}
+		
 	}
 	
 	@Override
@@ -124,7 +128,9 @@ public class DatabaseImpl implements Database {
 			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
 			resultado.add(producto);
 		}
+		System.out.println("getInventario():\n"+inventarioToString());
 		return resultado;
+		
 	}
 	
 	@Override
@@ -144,6 +150,7 @@ public class DatabaseImpl implements Database {
 
 	@Override
 	public Producto getProducto(int id) throws Exception {
+		
 		Producto producto = null;
 	
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
@@ -159,11 +166,14 @@ public class DatabaseImpl implements Database {
 				stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(cantidad-1)+" WHERE ID="+id+";");
 			}
 		}
+		System.out.println("getProducto("+id+") -> "+producto.getNombre());
 		return producto;
+		
 	}
 
 	@Override
 	public Producto getProducto(int id, int cantidad) throws DBException, Exception{
+		
 		Producto producto = null;
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
@@ -183,36 +193,45 @@ public class DatabaseImpl implements Database {
 		} else if (cantidad <1) {
 			throw new DBException("getProducto -> 'cantidad' debe tener un valor positivo");
 		}
-		
+		System.out.println("getProducto("+id+", "+cantidad+") -> "+producto.getNombre());
 		return producto;
+		
 	}
 
 	@Override
 	public int getId(String nombre) throws DBException, Exception {
+		
 		int id = 0;
 		ResultSet rs = stmt.executeQuery("SELECT ID FROM INVENTARIO WHERE NOMBRE='"+nombre+"';");
 		if (rs.next()) 
 			id = rs.getInt("ID");
 		else
 			throw new DBException("el producto con nombre '"+nombre+"' no existe.");
+		System.out.println("getId('"+nombre+"') -> "+id);
 		return id;
+		
 	}
 
 	@Override
 	public void addProducto(int id) throws Exception, DBException {
+		System.out.println("addProducto("+id+")");
 		ResultSet rs = stmt.executeQuery("SELECT CANTIDAD FROM INVENTARIO WHERE ID="+id+";");
-		if (rs.next()) 
+		if (rs.next()) {
 			stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(rs.getInt("CANTIDAD")+1)+" WHERE ID="+id+";");
-		else
+			
+		}else
 			throw new DBException("el producto con id '"+id+"' no existe.");
+		
 	}
 
 	@Override
 	public void addProducto(int id, int cantidad) throws Exception, DBException {
+		System.out.println("addProducto("+id+", "+cantidad+")");
 		ResultSet rs = stmt.executeQuery("SELECT CANTIDAD FROM INVENTARIO WHERE ID="+id+";");
-		if (rs.next()) 
+		if (rs.next()) {
 			stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(rs.getInt("CANTIDAD")+cantidad)+" WHERE ID="+id+";");
-		else
+			
+		}else
 			throw new DBException("el producto con id '"+id+"' no existe.");
 		
 	}
@@ -241,21 +260,24 @@ public class DatabaseImpl implements Database {
 								+ " VALUES("+id+",'"+nombre+"',"+precio+","+cantidad+" );");
 		} else if (cantidad <1)
 			throw new DBException("nuevoProducto -> 'cantidad' debe ser >=1 ("+cantidad+")");
-
+		System.out.println("nuevoProducto("+nombre+", "+precio+", "+cantidad+") -> "+id);
 		return id;
 	}
 
 	@Override
 	public void setNombreProducto(int id, String nombre) throws Exception, DBException {
+		System.out.println("setNombreProducto("+id+", "+nombre+")");
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
 		else
-			stmt.executeUpdate("UPDATE INVENTARIO SET NOMBRE='"+nombre+"' WHERE ID="+id+";");		
+			stmt.executeUpdate("UPDATE INVENTARIO SET NOMBRE='"+nombre+"' WHERE ID="+id+";");	
+		
 	}
 
 	@Override
 	public void setPrecioProducto(int id, float precio) throws Exception, DBException {
+		System.out.println("setPrecioProducto("+id+", "+precio+")");
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
@@ -263,10 +285,12 @@ public class DatabaseImpl implements Database {
 			stmt.executeUpdate("UPDATE INVENTARIO SET PRECIO="+precio+" WHERE ID="+id+";");		
 		else
 			throw new DBException("el producto con id '"+id+"' no puede tener un precio inferior a 0 ("+precio+")");
+		
 	}
 
 	@Override
 	public void setCantidadProducto(int id, int cantidad) throws Exception, DBException {
+		System.out.println("setCantidadProducto("+id+", "+cantidad+")");
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
