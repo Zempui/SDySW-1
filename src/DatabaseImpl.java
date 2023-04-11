@@ -2,7 +2,6 @@ import java.sql.*;
 /*import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;*/
 import java.util.LinkedList;
 import java.util.List;
@@ -30,11 +29,16 @@ public class DatabaseImpl implements Database {
 		for (int i = 0; i<2; i++) {
 			try {
 				this.createTable(i);
-			} catch(org.sqlite.SQLiteException e) {
-				System.out.println("Tabla "+i+" creada anteriormente");
+			/*} catch(org.sqlite.SQLiteException e) {
+				System.out.println("Tabla "+i+" creada anteriormente");*/
 			} catch (Exception e) {
-				System.err.println(e.getClass().getName()+": "+e.getMessage());
-				System.exit(0);
+				if (e.getClass().getName().equals("org.sqlite.SQLiteException")){
+					System.out.println("Tabla "+i+" creada anteriormente");
+				}
+				else{
+					System.err.println(e.getClass().getName()+": "+e.getMessage());
+					System.exit(0);
+				}
 			}
 		}
 		
@@ -76,7 +80,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public float getCuentas() throws SQLException {
+	public float getCuentas() throws Exception {
 		float total = 0.0f;
 		ResultSet rs = stmt.executeQuery("SELECT TOTAL FROM CUENTAS WHERE ID=0");
 		total = rs.getFloat("TOTAL");
@@ -85,7 +89,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void updateCuentas (float cambio) throws CuentaException, SQLException{
+	public void updateCuentas (float cambio) throws CuentaException, Exception{
 		float cuenta = this.getCuentas();
 		if((0-cambio) > cuenta) 
 			throw new CuentaException("se ha intentado extraer una cantidad ("+cambio+") superior al dinero almacenado ("+cuenta+").");
@@ -101,7 +105,7 @@ public class DatabaseImpl implements Database {
 			try {
 				stmt.executeUpdate("INSERT INTO CUENTAS (ID, TOTAL)"
 									+ "VALUES (0,"+total+");");
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				//Cuenta previamente definida, se resetea
 				stmt.executeUpdate("DELETE FROM CUENTAS WHERE ID=0;");
 				stmt.executeUpdate("INSERT INTO CUENTAS (ID, TOTAL)"
@@ -113,7 +117,7 @@ public class DatabaseImpl implements Database {
 	}
 	
 	@Override
-	public List<Producto> getInventario() throws SQLException {
+	public List<Producto> getInventario() throws Exception {
 		List<Producto> resultado = new LinkedList<Producto>();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
 		while (rs.next()) {
@@ -124,7 +128,7 @@ public class DatabaseImpl implements Database {
 	}
 	
 	@Override
-	public String inventarioToString() throws SQLException {
+	public String inventarioToString() throws Exception {
 		String resultado = "◢__ID__.________NOMBRE________.__PRECIO__._CANTIDAD_◣";
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
@@ -139,7 +143,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public Producto getProducto(int id) throws SQLException {
+	public Producto getProducto(int id) throws Exception {
 		Producto producto = null;
 	
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
@@ -159,7 +163,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public Producto getProducto(int id, int cantidad) throws DBException, SQLException{
+	public Producto getProducto(int id, int cantidad) throws DBException, Exception{
 		Producto producto = null;
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
@@ -184,7 +188,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public int getId(String nombre) throws DBException, SQLException {
+	public int getId(String nombre) throws DBException, Exception {
 		int id = 0;
 		ResultSet rs = stmt.executeQuery("SELECT ID FROM INVENTARIO WHERE NOMBRE='"+nombre+"';");
 		if (rs.next()) 
@@ -195,7 +199,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void addProducto(int id) throws SQLException, DBException {
+	public void addProducto(int id) throws Exception, DBException {
 		ResultSet rs = stmt.executeQuery("SELECT CANTIDAD FROM INVENTARIO WHERE ID="+id+";");
 		if (rs.next()) 
 			stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(rs.getInt("CANTIDAD")+1)+" WHERE ID="+id+";");
@@ -204,7 +208,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void addProducto(int id, int cantidad) throws SQLException, DBException {
+	public void addProducto(int id, int cantidad) throws Exception, DBException {
 		ResultSet rs = stmt.executeQuery("SELECT CANTIDAD FROM INVENTARIO WHERE ID="+id+";");
 		if (rs.next()) 
 			stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(rs.getInt("CANTIDAD")+cantidad)+" WHERE ID="+id+";");
@@ -214,7 +218,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public int nuevoProducto(String nombre, float precio, int cantidad) throws SQLException, DBException {
+	public int nuevoProducto(String nombre, float precio, int cantidad) throws Exception, DBException {
 		//Obtenemos el ID más alto y le sumamos 1
 		int id=0;
 		ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS ID FROM INVENTARIO;");
@@ -242,7 +246,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void setNombreProducto(int id, String nombre) throws SQLException, DBException {
+	public void setNombreProducto(int id, String nombre) throws Exception, DBException {
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
@@ -251,7 +255,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void setPrecioProducto(int id, float precio) throws SQLException, DBException {
+	public void setPrecioProducto(int id, float precio) throws Exception, DBException {
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
@@ -262,7 +266,7 @@ public class DatabaseImpl implements Database {
 	}
 
 	@Override
-	public void setCantidadProducto(int id, int cantidad) throws SQLException, DBException {
+	public void setCantidadProducto(int id, int cantidad) throws Exception, DBException {
 		ResultSet rs = stmt.executeQuery("SELECT 1 FROM INVENTARIO WHERE ID="+id+";");
 		if(!rs.next())
 			throw new DBException("el producto con id '"+id+"' no existe.");
@@ -281,13 +285,13 @@ public class DatabaseImpl implements Database {
 	protected void finalize() throws Throwable{
 		try {
 			stmt.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
 		try {
 			c.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
 		}
