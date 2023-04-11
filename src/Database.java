@@ -6,16 +6,16 @@ public interface Database {
 	/**
 	 * Devuelve el estado de la caja en ese instante
 	 * @return estado de la caja
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public float 	getCuentas () throws SQLException;
+	public float 	getCuentas () throws Exception;
 	
 	/**
 	 * Ejerce un cambio sobre el estado de la caja (suma o resta dinero)
 	 * @param cambio
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public void 	updateCuentas (float cambio) throws CuentaException, SQLException;
+	public void 	updateCuentas (float cambio) throws CuentaException, Exception;
 	
 	/**
 	 * Establece el estado actual de la caja
@@ -26,57 +26,57 @@ public interface Database {
 	/**
 	 * Devuelve una lista de los productos disponibles en la BD
 	 * @return Lista con el inventario
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public List<Producto> 	getInventario () throws SQLException;
+	public List<Producto> 	getInventario () throws Exception;
 	
 	/**
 	 * Devuelve un String con la lista de los productos disponibles en la BD
 	 * @return String con el inventario
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public String inventarioToString() throws SQLException;
+	public String inventarioToString() throws Exception;
 	
 	/**
 	 * Elimina un producto con la id proporcionada del inventario
 	 * @param id
 	 * @return Producto
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public Producto getProducto (int id) throws SQLException;
+	public Producto getProducto (int id) throws Exception;
 	
 	/**
 	 * Elimina una cantidad de un producto del inventario
 	 * @param id
 	 * @param cantidad
 	 * @return Producto
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	public Producto getProducto (int id, int cantidad) throws DBException, SQLException;
+	public Producto getProducto (int id, int cantidad) throws DBException, Exception;
 	
 	/**
 	 * Devuelve el ID del producto con el nombre proporcionado
 	 * @param nombre
 	 * @return id
 	 */
-	public int 		getId (String nombre) throws DBException, SQLException;
+	public int 		getId (String nombre) throws DBException, Exception;
 	
 	/**
 	 * Añade una unidad de un producto al inventario
 	 * @param id
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public void 	addProducto (int id) throws SQLException, DBException;
+	public void 	addProducto (int id) throws Exception, DBException;
 	
 	/**
 	 * Añade una cantidad de un producto al inventario
 	 * @param id
 	 * @param cantidad
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public void 	addProducto (int id, int cantidad) throws SQLException, DBException;
+	public void 	addProducto (int id, int cantidad) throws Exception, DBException;
 	
 	/**
 	 * Añade una cantidad de un nuevo producto al inventario. Devuelve el ID
@@ -86,36 +86,36 @@ public interface Database {
 	 * @param precio
 	 * @param cantidad
 	 * @return id
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public int		nuevoProducto (String nombre, float precio, int cantidad) throws SQLException, DBException;
+	public int		nuevoProducto (String nombre, float precio, int cantidad) throws Exception, DBException;
 	
 	/**
 	 * Cambia el nombre del producto con la id proporcionada
 	 * @param id
 	 * @param nombre
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public void 	setNombreProducto (int id, String nombre) throws SQLException, DBException;
+	public void 	setNombreProducto (int id, String nombre) throws Exception, DBException;
 	
 	/**
 	 * Cambia el precio del producto con la id dada
 	 * @param id
 	 * @param precio
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public void 	setPrecioProducto (int id, float precio) throws SQLException, DBException;
+	public void 	setPrecioProducto (int id, float precio) throws Exception, DBException;
 	
 	/**
 	 * Cambia la cantidad del producto con la id dada
 	 * @param id
 	 * @param cantidad
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public void 	setCantidadProducto (int id, int cantidad) throws SQLException, DBException;
+	public void 	setCantidadProducto (int id, int cantidad) throws Exception, DBException;
 	
 }

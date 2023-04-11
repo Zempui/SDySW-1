@@ -31,7 +31,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	producto = new ProductoImpl(precio, name);
     }
 
-    public Producto compraProducto (int id, int cantidad, float cambio) throws RemoteException, DBException, SQLException, CuentaException
+    public Producto compraProducto (int id, int cantidad, float cambio) throws RemoteException, DBException, Exception, CuentaException
     {
 	//La idea seria que este metodo tenga una variable del tipo DataBase para poder usar sus metodos
         this.cantidad = cantidad;
@@ -47,7 +47,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	return producto;	
     }
 
-    public void devuelveProducto (int id, int cantidad,float cambio) throws RemoteException, SQLException, DBException, CuentaException
+    public void devuelveProducto (int id, int cantidad,float cambio) throws RemoteException, Exception, DBException, CuentaException
     {
         this.cantidad = cantidad;
 	this.id = id;
@@ -61,7 +61,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	
     }
 
-    public List<Producto> obtenerProductos () throws RemoteException, SQLException
+    public List<Producto> obtenerProductos () throws RemoteException, Exception
     {
 
 	//Aqui tenemos inconveniente porque el metodo de getInventrio devuelve un string y yo quiero una lista para que la profe vea que las manejamos.
@@ -70,7 +70,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	return inventario;
     }
 
-    public float obtenerCashFlow () throws RemoteException, SQLException
+    public float obtenerCashFlow () throws RemoteException, Exception
     {
 	cashFlow = objDB.getCuentas();
 
