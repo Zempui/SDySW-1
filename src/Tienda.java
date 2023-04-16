@@ -77,5 +77,18 @@ public interface Tienda extends Remote {
      */
     public int nuevoProducto (String nombre, float precio, int cantidad) throws Exception;
 
+
+    /**
+	  * Añade una cantidad de un nuevo producto al inventario. Devuelve el ID
+	 * asignado al nuevo producto (siempre mayor que 1) o, en caso de que
+	 * el producto ya estuviese registrado, devolverá 0.
+	 * @param id
+	 * @throws Exception 
+	  
+     */
+
+    public void eliminaProducto (int id) throws Exception;
+    
+
 }
 

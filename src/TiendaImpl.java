@@ -105,6 +105,13 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	return id;
     }
 
+    public void eliminaProducto (int id) throws Exception
+    {
+	this.id = id;
+	
+	objDB.eliminaProducto(id);
+    }
+
 }
     
     
