@@ -89,7 +89,7 @@ public interface Database {
 	 * @throws Exception 
 	 * @throws DBException 
 	 */
-	public int		nuevoProducto (String nombre, float precio, int cantidad) throws Exception, DBException;
+	public int	       nuevoProducto (String nombre, float precio, int cantidad) throws Exception, DBException;
 	
 	/**
 	 * Cambia el nombre del producto con la id proporcionada

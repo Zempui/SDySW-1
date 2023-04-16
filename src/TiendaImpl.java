@@ -74,6 +74,27 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 
 		return cashFlow;
     }
+
+    public Producto getProducto (int id) throws Exception
+    {
+		this.id = id;
+		
+		producto = objDB.getProducto (id);
+
+		return producto;
+	}
+   public int nuevoProducto (String name, float precio, int cantidad) throws Exception
+    {
+		this.name = name;
+		this.precio = precio;
+		this.cantidad = cantidad;
+
+		int id = objDB.nuevoProducto (name, precio, cantidad);
+
+		if (id == 0)
+			System.out.println ("El producto con id: " + id + "ya existe");
+		return id;
+    }
 }
     
     

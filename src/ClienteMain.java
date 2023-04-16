@@ -8,7 +8,7 @@ import java.sql.*;
 class ClienteMain {
     @SuppressWarnings({ "removal", "deprecation", "resource" })
 	static public void main (String args[]) {
-    	int salida = 0;
+      
         if (args.length != 2) {
             System.err.println("Uso: ClienteMain hostregistro numPuertoRegistro ");
             return;
@@ -22,63 +22,88 @@ class ClienteMain {
 	    Tienda srv = (Tienda) Naming.lookup("//" + args[0] + ":" + args[1] + "/Tienda");
 	    //Creamos las cadenas para comparar que acción va a realizar el cliente
 	    Scanner EntradaDatos =new Scanner(System.in); //para pedir datos por línea de comando
+	    boolean salir = false;
+	    int opcion;
+	    Producto p;
 	    
-	    do{
-			System.out.println("Si desea salir de comprar o devolver introduzca el número 7 ");
-			salida = EntradaDatos.nextInt();
-			EntradaDatos.nextLine(); //limpiar el buffer de entrada
-			//acción que se va a realizar
-			System.out.println("Ingrese la acción que va a realizar: ");
-			String accion = EntradaDatos.nextLine();
-			//comparamos si el cliente quiere comprar
-			if ("compra".equalsIgnoreCase(accion)){
-			    System.out.println("Ingrese el Id del producto que quiera comprar: ");
-			    int id_producto_comprar = EntradaDatos.nextInt();
-			    System.out.println("Ingrese la cantidad del producto a comprar: ");
-			    int cantidad_producto_comprar = EntradaDatos.nextInt();
-			    System.out.println("Ingrese el importe del producto a comprar: ");
-			    EntradaDatos.nextLine(); //limpiar el buffer de entrada
-			    float importe_producto_comprar = EntradaDatos.nextFloat();
-	
-			    Producto p = srv.compraProducto(id_producto_comprar, cantidad_producto_comprar, importe_producto_comprar);
-			    System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre());
-			}
-			//comprobamos si el cliente quiere la lista de productos
-			else if("Lista".equalsIgnoreCase(accion)){
-			    List <Producto> listaProducto;
+	    while(!salir){
+		 System.out.println("1. Comprar");
+		 System.out.println("2. Lista");
+		 System.out.println("3. Devolver");
+		 System.out.println("4. Introducir Producto");
+		 System.out.println("5. Salir");
+		 try {
+ 
+		     System.out.println("Elija una de las anteriores opciones");
+		     opcion = EntradaDatos.nextInt();
+ 
+		     switch (opcion) {
+		     case 1:
+			 System.out.println("Has seleccionado la opcion de COMPRAR\n");
+			 System.out.println("Ingrese el Id del producto que quiera comprar: ");
+			 int id_producto_compra = EntradaDatos.nextInt();
+			 System.out.println("Ingrese la cantidad del producto a comprar: ");
+			 int cantidad_producto_comprar = EntradaDatos.nextInt();
+			 p = srv.getProducto(id_producto_compra);
+			 float precio_compra = p.getPrecio();
+			 precio_compra = cantidad_producto_comprar*precio_compra;
+			 p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
+			 System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre() + "con un coste total: "+ precio_compra);
+			 break;
+		     case 2:
+			 System.out.println("Has seleccionado la opcion de LISTAR PRODUCTOS\n");
+			 List <Producto> listaProducto;
 			    listaProducto = srv.obtenerProductos();
 			    for(Producto i: listaProducto){
 				String nombre = i.getNombre();
 				System.out.println(nombre + ":" + i.getPrecio());
 			    }
-			}
-			//comprabamos si el cliente quiere devolver un producto
-			else if("Devolver".equalsIgnoreCase(accion)){
-			    System.out.println("Ingrese el Id que se quiera devolver: ");
-			    int id_producto_devolver = EntradaDatos.nextInt();
-			    System.out.println("Ingrese la cantidad del producto a devolver: ");
-			    int cantidad_producto_devolver = EntradaDatos.nextInt();
-			    System.out.println("Ingrese el importe del producto a devovler: ");
-			    EntradaDatos.nextLine(); //limpiar el buffer de entrada
-			    float importe_producto_devolver = EntradaDatos.nextFloat();
+			 break;
+		     case 3:
+			 System.out.println("Has seleccionado la opcion de DEVOLVER\n");
+			 System.out.println("Ingrese el Id del producto que desea devolver: ");
+			 int id_producto_devolver = EntradaDatos.nextInt();
+			 System.out.println("Ingrese la cantidad del producto a devolver: ");
+			 int cantidad_producto_devolver = EntradaDatos.nextInt();
+			 p = srv.getProducto(id_producto_devolver);
+			 float precio_devolver = p.getPrecio();
+			 precio_devolver = cantidad_producto_devolver*precio_devolver;
 	
-			    srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver, importe_producto_devolver);
-			    System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
+			 srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver, precio_devolver);
+			 System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
+			 
+			 break;
+		     case 4:
+				 System.out.println("Has seleccionado la opcion de INTRODUCIR NUEVO PRODUCTO\n");
+				 System.out.println("Ingrese la cantidad del producto a introducir: ");
+				 int cantidad_producto_introducir = EntradaDatos.nextInt();
+				 System.out.println("Ingrese el precio del producto a introducir: ");
+				 float precio_producto_introducir = EntradaDatos.nextFloat();
+				 EntradaDatos.nextLine();
+				 System.out.println("Ingrese el nombre del producto a introducir: ");
+				 String nombre_producto_introducir = EntradaDatos.nextLine();
+				 int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
+				 System.out.println("Se ha inntroducido correctamente el nuevo producto con id: "+ nuevoProducto);
+				 break;
+		     case 5:
+				 salir = true;
+				 break;
+		     default:
+			 System.out.println("Solo números entre 1 y 5");
+		     }
+		 } catch (Exception e) {
+		     System.err.println("Excepcion en ClienteTienda:");
+		     e.printStackTrace();
+		 }
 			
-			}
-			else{
-			    System.out.println("Introduzca una de las siguientes tres palabras: lista, compra o delvover");
-			}
-	    }while(salida != 7);
+	    }
 	  
       
         }
-	 catch (RemoteException e) {
-            System.err.println("Error de comunicacion: " + e.toString());
+	 catch (Exception e) {
+		     System.err.println("Excepcion en ClienteTienda:");
+		     e.printStackTrace();
         }
-        catch (Exception e) {
-            System.err.println("Excepcion en ClienteTienda:");
-            e.printStackTrace();
-        }
+
     }
 }
