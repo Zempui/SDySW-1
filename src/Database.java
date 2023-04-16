@@ -134,5 +134,11 @@ public interface Database {
 	 * @throws DBException 
 	 */
 	public void 	setCantidadProducto (int id, int cantidad) throws Exception, DBException;
-	
+
+	/**
+	 * Elimina un producto de la base de datos con la ID dada
+	 * @param id
+	 * @throws Exception
+	 */
+	public void eliminaProducto(int id) throws Exception;
 }
