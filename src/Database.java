@@ -55,6 +55,15 @@ public interface Database {
 	public Producto getProducto (int id, int cantidad) throws DBException, Exception;
 	
 	/**
+	 * Devuelve la cantidad de un producto disponible en la base de datos
+	 * @param id
+	 * @return cantidad
+	 * @throws Exception
+	 */
+	public int getCantidadProducto (int id) throws Exception;
+
+
+	/**
 	 * Devuelve el ID del producto con el nombre proporcionado
 	 * @param nombre
 	 * @return id
