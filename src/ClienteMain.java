@@ -114,6 +114,7 @@ class ClienteMain {
 				 					String nombre_producto_introducir = EntradaDatos.nextLine();
 				 					System.out.println("Ingrese la cantidad del producto a introducir: ");
 				 					int cantidad_producto_introducir = EntradaDatos.nextInt();
+
 									if (cantidad_producto_introducir < 0){
 										System.out.println("No se puede introducir un número negativo\n");
 									}
@@ -128,6 +129,7 @@ class ClienteMain {
 										}
 									}
 				 			
+
 									break;
 								case 2:
 									 System.out.println("Has seleccionado la opcion de AÑADIR PRODUCTO\n");
@@ -135,6 +137,7 @@ class ClienteMain {
 									 int id_producto_añadir = EntradaDatos.nextInt();
 									 System.out.println("Ingrese la cantidad del producto a añadir: ");
 								 	int cantidad_producto_añadir = EntradaDatos.nextInt();
+
 									if (cantidad_producto_añadir < 0){
 										System.out.println("No se puede introducir un número negativo\n");
 									}
@@ -145,6 +148,7 @@ class ClienteMain {
 								 		srv.devuelveProducto(id_producto_añadir, cantidad_producto_añadir, precio_añadir);
 								 		System.out.println("Se ha introducido el producto: "+ id_producto_añadir);
 									}
+
 								 	break;
 								case 3:
 									 System.out.println("Has seleccionado la opcion de ELIMINAR\n");
@@ -156,15 +160,16 @@ class ClienteMain {
 								case 4:
 									 System.out.println("Has seleccionado la opcion de VER FLUJO DE CAJA\n");
 			 						float flujo_de_caja = srv.obtenerCashFlow();
+
 								 	System.out.println("El dinero en caja es: " + flujo_de_caja);
 								 	break;
 		     						case 5:
 				 					salir_2 = true;
+
 				 					break;
 		  					   	default:
 			 						System.out.println("Solo números entre 1 y 5");
 						    	 }
-							
 
 						}
 						catch (DBException e) {
@@ -176,6 +181,7 @@ class ClienteMain {
 						 }
 	
 				 	     }			
+
 
 		     case 5:
 				 salir = true;
