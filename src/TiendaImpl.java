@@ -18,6 +18,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
     private Producto producto;
     int id;
     int cantidad;
+    int cantidadReal;
     private float precio;
     private String name;
     float cambio;
@@ -75,11 +76,18 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 		return cashFlow;
     }
 
-    public Producto getProducto (int id) throws Exception
+    public Producto getProducto (int id, int cantidad) throws Exception
     {
 		this.id = id;
-		
-		producto = objDB.getProducto (id);
+		this.cantidad = cantidad;
+
+		cantidadReal = objDB.getProductoCantidad(id);
+		if (cantidad <= cantidadReal) 
+		    {
+			producto = objDB.getProducto (id);
+		    }
+		else
+		    System.out.println ("'cantidad' introducida superior a la existente en inventario, introduzca una menor"); 
 
 		return producto;
 	}
