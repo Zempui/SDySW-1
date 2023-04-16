@@ -99,8 +99,8 @@ class ClienteMain {
 			 System.out.println("Solo números entre 1 y 5");
 		     }
 		 }
-		catch (Exception DBException) {
-		   System.err.println("Error en el acceso a la base de datos\n");
+		catch (DBException e) {
+		   System.err.println("Error en el acceso a la base de datos: \n\t"+e.getClass().getName()+": "+e.getMessage());
 		 } 
 		catch (Exception e) {
 		     System.err.println("Excepcion en ClienteTienda:");
