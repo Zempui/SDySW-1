@@ -75,7 +75,7 @@ public interface Tienda extends Remote {
 	 * @throws Exception 
 	  
      */
-    public int nuevoProducto (String nombre, float precio, int cantidad) throws Exception;
+    public int nuevoProducto (int id, String nombre, float precio, int cantidad) throws Exception;
 
 
     /**

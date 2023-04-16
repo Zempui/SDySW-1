@@ -91,13 +91,14 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 
 		return producto;
 	}
-   public int nuevoProducto (String name, float precio, int cantidad) throws Exception
+    public int nuevoProducto (int id, String name, float precio, int cantidad) throws Exception
     {
 		this.name = name;
 		this.precio = precio;
 		this.cantidad = cantidad;
+		this.id = id;
 
-		int id = objDB.nuevoProducto (name, precio, cantidad);
+		int id = objDB.nuevoProducto (id, name, precio, cantidad);
 
 		if (id == 0)
 			System.out.println ("El producto con id: " + id + "ya existe");
