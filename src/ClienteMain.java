@@ -30,7 +30,7 @@ class ClienteMain {
 		 System.out.println("1. Comprar");
 		 System.out.println("2. Lista");
 		 System.out.println("3. Devolver");
-		 System.out.println("4. Introducir Producto");
+		 System.out.println("4. Opciones administración");
 		 System.out.println("5. Salir");
 		 try {
  
@@ -80,18 +80,76 @@ class ClienteMain {
 			 System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
 			 
 			 break;
-		     case 4:
-				 System.out.println("Has seleccionado la opcion de INTRODUCIR NUEVO PRODUCTO\n");
-				 EntradaDatos.nextLine();
-				 System.out.println("Ingrese el nombre del producto a introducir: ");
-				 String nombre_producto_introducir = EntradaDatos.nextLine();
-				 System.out.println("Ingrese la cantidad del producto a introducir: ");
-				 int cantidad_producto_introducir = EntradaDatos.nextInt();
-				 System.out.println("Ingrese el precio del producto a introducir: ");
-				 float precio_producto_introducir = EntradaDatos.nextFloat();
-				 int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
-				 System.out.println("Se ha inntroducido correctamente el nuevo producto con id: "+ nuevoProducto);
-				 break;
+		       case 4:
+				 System.out.println("Has seleccionado la opcion de OPCIONES DE ADMINISTRACION\n");
+				 while(!salir){
+		 				System.out.println("1. Añadir nuevo producto");
+		 				System.out.println("2. Añadir producto");
+		 				System.out.println("3. Eliminar procucto");
+		 				System.out.println("4. Ver flujo de caja");
+		 				System.out.println("5. Salir");
+						try{
+						   	  System.out.println("Elija una de las anteriores opciones");
+		     					  opcion = EntradaDatos.nextInt();
+		     				    	 switch (opcion) {
+								case 1:
+									System.out.println("Has seleccionado la opcion de INTRODUCIR NUEVO PRODUCTO\n");
+									 EntradaDatos.nextLine();
+									 System.out.println("Ingrese el nombre del producto a introducir: ");
+				 					String nombre_producto_introducir = EntradaDatos.nextLine();
+				 					System.out.println("Ingrese la cantidad del producto a introducir: ");
+				 					int cantidad_producto_introducir = EntradaDatos.nextInt();
+				 					System.out.println("Ingrese el precio del producto a introducir: ");
+				 					float precio_producto_introducir = EntradaDatos.nextFloat();
+				 					int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
+									if (nuevoProducto == 0){
+										System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
+									}else{ 
+				 						System.out.println("Se ha introducido correctamente el nuevo producto con id: "+ nuevoProducto);
+									}
+									break;
+								case 2:
+									 System.out.println("Has seleccionado la opcion de AÑADIR PRODUCTO\n");
+			 						System.out.println("Ingrese el Id del producto que quiera añadir: ");
+									 int id_producto_añadir = EntradaDatos.nextInt();
+									 System.out.println("Ingrese la cantidad del producto a añadir: ");
+								 	int cantidad_producto_añadir = EntradaDatos.nextInt();
+								 	p = srv.getProducto(id_producto_añadir, 0);
+								 	float precio_añadir = p.getPrecio();
+									precio_añadir = cantidad_producto_añadir*precio_añadir;
+								 	srv.devuelveProducto(id_producto_añadir, cantidad_producto_añadir, precio_añadir);
+								 	System.out.println("Se ha introducido el producto: "+ id_producto_añadir);
+								 	break;
+								case 3:
+									 System.out.println("Has seleccionado la opcion de ELIMINAR\n");
+			 						System.out.println("Ingrese el Id del producto que quiera eliminar: ");
+									int id_producto_eliminar = EntradaDatos.nextInt();
+									srv.eliminaProducto(id_producto_eliminar);
+								 	System.out.println("Se ha eliminado el producto: "+ id_producto_eliminar);
+								 	break;
+								case 4:
+									 System.out.println("Has seleccionado la opcion de VER FLUJO DE CAJA\n");
+			 						float flujo_de_caja = srv.obtenerCashFlow();
+								 	System.out.println("El flujo de caja es: " + flujo_de_caja);
+								 	break;
+		     						case 5:
+				 					salir = true;
+				 					break;
+		  					   	default:
+			 						System.out.println("Solo números entre 1 y 5");
+						    	 }
+							
+						}catch (DBException e) {
+                                                                        System.err.println("Error en el acceso a la base de datos: \n\t"+e.getClass().getName()+": "+e.getMessage());
+                                                                } 
+                                                        catch (Exception e) {
+                                                                         System.err.println("Excepcion en ClienteTienda:");
+                                                                         e.printStackTrace();
+                                                         }
+
+	
+				 	     }	
+
 		     case 5:
 				 salir = true;
 				 break;
