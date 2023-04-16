@@ -13,6 +13,9 @@ import java.util.List;
 public interface Tienda extends Remote {
          /**
 	 * Saca un producto con una id y la cantidad x del inventario (la bbdd)
+	 * @param id
+	 * @param cantidad
+	 * @param cambio
 	 * @return producto
          * @throws DBException 
 	 * @throws Exception 
@@ -23,6 +26,9 @@ public interface Tienda extends Remote {
 
          /**
 	 * Mete un producto con una id y una cantidad x al inventario
+	 * @param id
+	 * @param cantidad
+	 * @param cambio
          * @throws DBException 
 	 * @throws Exception 
          * @throws CuentaException 
@@ -35,6 +41,7 @@ public interface Tienda extends Remote {
 	 * Devuelve una lista con todos los productos disponibles en el inventario
 	 * @return Lista de productos
 	 * @throws Exception 
+	 * @throws RemoteException
 	 */
     public List<Producto> obtenerProductos () throws RemoteException, Exception;
 
@@ -43,13 +50,15 @@ public interface Tienda extends Remote {
 	 * Devuelve el estado de la caja en ese instante
 	 * @return estado de la caja
 	 * @throws Exception 
+	 * @throws RemoteException
 	 */
     public float obtenerCashFlow () throws RemoteException, Exception;
 
      /**
 	 * Devuelve un producto en base a la id que se le da
+	 * @param id
 	 * @return Producto
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
 
     public Producto getProducto (int id) throws Exception;
@@ -64,7 +73,17 @@ public interface Tienda extends Remote {
 	 * @param cantidad
 	 * @return id
 	 * @throws Exception 
-	 * @throws DBException  
+	  
      */
-    public int nuevoProducto (String nombre, float precio, int cantidad) throws Exception;
+    public int nuevoProducto (int id, String nombre, float precio, int cantidad) throws Exception;
+
+
+    /**
+     *Busca la cantidad existente en el inventario de un producto con la id pasada por parametro
+	 * @param id
+	 * @return cantidad
+	 * @throws Exception   
+     */
+    public int getCantidadProducto (int id) throws Exception;
 }
+
