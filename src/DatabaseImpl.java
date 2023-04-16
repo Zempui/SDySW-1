@@ -326,6 +326,16 @@ public class DatabaseImpl implements Database {
 	}
 	
 	@Override
+	public void eliminaProducto(int id) throws Exception{
+		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
+		if (!rs.next())
+			throw new DBException("el producto con id '"+id+"' no existe.");
+		else
+			stmt.executeUpdate("DELETE FROM INVENTARIO WHERE ID="+id+";");
+	}
+
+
+	@Override
 	/**
 	 * Sobreescribimos el método finalize() para asegurarnos de que la BD
 	 * y el statement se cierran antes de ser eliminados.
