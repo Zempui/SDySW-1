@@ -25,7 +25,7 @@ class ClienteMain {
 	    //Creamos las cadenas para comparar que acción va a realizar el cliente
 	    Scanner EntradaDatos =new Scanner(System.in); //para pedir datos por línea de comando
 	    boolean salir = false;
-	    boolean salir_2 = false;
+	    
 	    int opcion;
 	    Producto p;
                     Date fecha = new Date();
@@ -103,6 +103,7 @@ class ClienteMain {
 			case 4:
 				System.out.println("Has seleccionado la opcion de OPCIONES DE ADMINISTRACION\n");
 				int opcion1=0;
+				boolean salir_2 = false;
 				while(!salir_2){
 
 					System.out.println("\n1. Añadir nuevo producto");
