@@ -35,10 +35,5 @@ class ServicioLogImpl extends UnicastRemoteObject implements ServicioLog {
         fd.println(m);
         fd.flush();
     }
-    /** public Log obtenerLog() throws RemoteException{
-        return log;
-    }
-    public Date obtenerFecha() throws RemoteException{
-        return fecha;
-	}*/
+
 }

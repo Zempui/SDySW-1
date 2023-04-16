@@ -12,7 +12,5 @@ class FabricaLogImpl extends UnicastRemoteObject implements FabricaLog {
 		l.add(s); 
 		return s;
 	}
-    //public List<ServicioLog> obtenerLogs() throws RemoteException{
-    //		return l;
-    //	}
+
 }
