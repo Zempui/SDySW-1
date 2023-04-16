@@ -20,10 +20,11 @@ class serverTienda  {
         }
         try {
             TiendaImpl t = new TiendaImpl();
-	    
+	    FabricaLogImpl f = new FabricaLogImpl();
 	    //Lo que hace rebind es vincular el arg[0] (puertoregistro) con el nuevo objeto remoto
 	    //rebind(String name, Remote obj) donde name tiene que tener formato de url
             Naming.rebind("rmi://localhost:" + args[0] + "/Tienda", t);
+	    Naming.rebind("rmi://localhost:" + args[0] + "/Log", f);
 	    
         }
         catch (RemoteException e) {
