@@ -75,15 +75,9 @@ public interface Tienda extends Remote {
 	 * @throws Exception 
 	  
      */
-    public int nuevoProducto (int id, String nombre, float precio, int cantidad) throws Exception;
+    public int nuevoProducto (String nombre, float precio, int cantidad) throws Exception;
 
 
-    /**
-     *Busca la cantidad existente en el inventario de un producto con la id pasada por parametro
-	 * @param id
-	 * @return cantidad
-	 * @throws Exception   
-     */
-    public int getCantidadProducto (int id) throws Exception;
+   
 }
 
