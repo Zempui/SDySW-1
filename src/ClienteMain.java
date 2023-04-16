@@ -57,7 +57,7 @@ class ClienteMain {
 			 	precio_compra = cantidad_producto_comprar*precio_compra;
 			 	p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
 			 	System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre() + " con un coste total: "+ precio_compra);
-				c.log(fecha+" "+args[3] +" "+" se ha comprado una cantidad"+ cantidad_producto_compar +" del producto"+ p.getNombre());
+				c.log(fecha+" "+args[3] +" se ha comprado una cantidad "+ cantidad_producto_comprar +" del producto "+ p.getNombre());
 			} 
 			break;
 		     case 2:
@@ -96,7 +96,7 @@ class ClienteMain {
 					else{
 						srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver, precio_devolver);
 						System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
-						c.log(fecha+" "+args[3] +" "+"se ha devuelto " + cantidad_producto_devolver+ "del producto con id: "+ id_producto_devolver);
+						c.log(fecha+" "+args[3] +" "+"se ha devuelto " + cantidad_producto_devolver+ " del producto con id: "+ id_producto_devolver);
 					}
 				}
 			 	break;
@@ -169,7 +169,7 @@ class ClienteMain {
 								System.out.println("Has seleccionado la opcion de VER FLUJO DE CAJA\n");
 								float flujo_de_caja = srv.obtenerCashFlow();
 								System.out.println("El dinero en caja es: " + flujo_de_caja);
-								c.log(fecha+" "+args[3] +" "+" se ha consultado el flujo de caja : "+ flujo_de_caja);
+								c.log(fecha+" "+args[3] +" se ha consultado el flujo de caja: "+ flujo_de_caja);
 								break;
 							case 5:
 								salir_2 = true;
