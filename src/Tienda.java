@@ -45,4 +45,26 @@ public interface Tienda extends Remote {
 	 * @throws Exception 
 	 */
     public float obtenerCashFlow () throws RemoteException, Exception;
+
+     /**
+	 * Devuelve un producto en base a la id que se le da
+	 * @return Producto
+	 * @throws SQLException 
+	 */
+
+    public Producto getProducto (int id) throws Exception;
+
+
+    /**
+	  * Añade una cantidad de un nuevo producto al inventario. Devuelve el ID
+	 * asignado al nuevo producto (siempre mayor que 1) o, en caso de que
+	 * el producto ya estuviese registrado, devolverá 0.
+	 * @param nombre
+	 * @param precio
+	 * @param cantidad
+	 * @return id
+	 * @throws Exception 
+	 * @throws DBException  
+     */
+    public int nuevoProducto (String nombre, float precio, int cantidad) throws Exception;
 }
