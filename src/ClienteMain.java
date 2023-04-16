@@ -102,10 +102,12 @@ class ClienteMain {
 				 					System.out.println("Ingrese el precio del producto a introducir: ");
 				 					float precio_producto_introducir = EntradaDatos.nextFloat();
 				 					int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
-									if (nuevoProducto == 0)
-ç										System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
-									else 
+									if (nuevoProducto == 0){
+										System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
+									}else{ 
 				 						System.out.println("Se ha introducido correctamente el nuevo producto con id: "+ nuevoProducto);
+									}
+									break;
 								case 2:
 									 System.out.println("Has seleccionado la opcion de AÑADIR PRODUCTO\n");
 			 						System.out.println("Ingrese el Id del producto que quiera añadir: ");
@@ -135,6 +137,13 @@ class ClienteMain {
 		  					   	default:
 			 						System.out.println("Solo números entre 1 y 5");
 						    	 }
+							catch (DBException e) {
+		   							System.err.println("Error en el acceso a la base de datos: \n\t"+e.getClass().getName()+": "+e.getMessage());
+								} 
+							catch (Exception e) {
+		    							 System.err.println("Excepcion en ClienteTienda:");
+		    							 e.printStackTrace();
+							 }
 
 						}
 	
