@@ -7,7 +7,7 @@
 - Situarse en `~/SDySW/src/` y realizar la orden `javac -cp ~/sqlite-jdbc-3.40.0.0.jar:. *.java -d ../bin/` para compilar todos los archivos
 - Una vez compilados, seleccionar un puerto para operar con rmiregistry[^1] y proceder con la ejecución
   - Para ejecutar el servidor, situarse en `~/SDySW/bin/` y utilizar la orden `java -cp ~/sqlite-jdbc-3.40.0.0.jar:. -Djava.security.policy=servidor.permisos serverTienda <num puerto>`
-  - Para ejecutar el cliente, situarse en `~/SDySW/bin/` y utilizar la orden`java -cp ~/sqlite-jdbc-3.40.0.0.jar:. -Djava.security.policy=cliente.permisos ClienteMain localhost <num puerto>`
+  - Para ejecutar el cliente, situarse en `~/SDySW/bin/` y utilizar la orden`java -cp ~/sqlite-jdbc-3.40.0.0.jar:. -Djava.security.policy=cliente.permisos ClienteMain localhost <num puerto> <nombre_historico> <ID_cliente>`
 
 [^1]: La orden rmiregistry sigue el formato `rmiregistry <num puerto> &` y deberá ejecutarse en `~/SDySW/bin/`
 
