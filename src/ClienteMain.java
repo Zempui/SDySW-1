@@ -18,7 +18,7 @@ class ClienteMain {
             System.setSecurityManager(new SecurityManager());
 
         try {
-	    FabricaLog server = (FabricaLog) Naming.lookup("//" + args[0] + ":" + args[1] + "/FabricaLog");
+	    FabricaLog server = (FabricaLog) Naming.lookup("//" + args[0] + ":" + args[1] + "/Log");
 	    Log log = new Log(args[2],args[3]);
 	    ServicioLog c = server.crearLog(log);
 	    Tienda srv = (Tienda) Naming.lookup("//" + args[0] + ":" + args[1] + "/Tienda");
