@@ -15,4 +15,16 @@ public interface Producto {
 	 * @return nombre
 	 */
 	public String getNombre();
+
+	/**
+	 * Método getCantidad, que devuelve la cantidad del producto
+	 * @return cantidad
+	 */
+	public int getCantidad();
+
+	/**
+	 * Método getId, que devuelve el ID del producto
+	 * @return id
+	 */
+	public int getId();
 }

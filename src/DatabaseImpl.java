@@ -125,7 +125,7 @@ public class DatabaseImpl implements Database {
 		List<Producto> resultado = new LinkedList<Producto>();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
 		while (rs.next()) {
-			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
+			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			resultado.add(producto);
 		}
 		System.out.println("getInventario():\n"+inventarioToString());
@@ -155,7 +155,7 @@ public class DatabaseImpl implements Database {
 	
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
 		if (rs.next()) {
-			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
+			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			int cantidad = rs.getInt("CANTIDAD");
 			if(cantidad <= 0) {
 				// salta una excepción
@@ -177,7 +177,7 @@ public class DatabaseImpl implements Database {
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
 		if (rs.next() && cantidad>=1) {
-			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
+			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			int n = rs.getInt("CANTIDAD");
 			if (n>=cantidad) {
 				// se decrementa el número de unidades
