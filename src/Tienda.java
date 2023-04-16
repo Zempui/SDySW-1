@@ -61,7 +61,7 @@ public interface Tienda extends Remote {
 	 * @throws Exception 
 	 */
 
-    public Producto getProducto (int id) throws Exception;
+    public Producto getProducto (int id, int cantidad) throws Exception;
 
 
     /**
