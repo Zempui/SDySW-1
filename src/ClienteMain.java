@@ -44,7 +44,7 @@ class ClienteMain {
 			 int id_producto_compra = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a comprar: ");
 			 int cantidad_producto_comprar = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_compra);
+			 p = srv.getProducto(id_producto_compra, 0);
 			 float precio_compra = p.getPrecio();
 			 precio_compra = cantidad_producto_comprar*precio_compra;
 			 p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
@@ -60,7 +60,7 @@ class ClienteMain {
 			for(Producto i: listaProducto) {
 				String fila = String.format("| %4d | %-20s | %8.2f | %-8d |", 
 							i.getId(),i.getNombre(), 
-							i.getPrecio(),i.getCantidad();
+							i.getPrecio(),i.getCantidad());
 				resultado = resultado +"\n"+fila;
 			}
 
@@ -72,7 +72,7 @@ class ClienteMain {
 			 int id_producto_devolver = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a devolver: ");
 			 int cantidad_producto_devolver = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_devolver);
+			 p = srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver);
 			 float precio_devolver = p.getPrecio();
 			 precio_devolver = cantidad_producto_devolver*precio_devolver;
 	
