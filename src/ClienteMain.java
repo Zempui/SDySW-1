@@ -102,7 +102,10 @@ class ClienteMain {
 				 					System.out.println("Ingrese el precio del producto a introducir: ");
 				 					float precio_producto_introducir = EntradaDatos.nextFloat();
 				 					int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
-				 					System.out.println("Se ha inntroducido correctamente el nuevo producto con id: "+ nuevoProducto);
+									if (nuevoProducto == 0)
+ç										System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
+									else 
+				 						System.out.println("Se ha introducido correctamente el nuevo producto con id: "+ nuevoProducto);
 								case 2:
 									 System.out.println("Has seleccionado la opcion de AÑADIR PRODUCTO\n");
 			 						System.out.println("Ingrese el Id del producto que quiera añadir: ");
