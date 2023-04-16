@@ -81,10 +81,10 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	this.id = id;
 	this.cantidad = cantidad;
 
-	cantidadReal = objDB.getProductoCantidad(id);
+	cantidadReal = objDB.getCantidadProducto(id);
 	if (cantidad <= cantidadReal) 
 	    {
-		producto = objDB.getProducto (id);
+		producto = objDB.getProducto (id, cantidad);
 	    }
 	else
 	    System.out.println ("'cantidad' introducida superior a la existente en inventario, introduzca una menor"); 
@@ -98,7 +98,7 @@ class TiendaImpl extends UnicastRemoteObject implements Tienda
 	this.cantidad = cantidad;
 		
 
-	int id = objDB.nuevoProducto (id, name, precio, cantidad);
+	int id = objDB.nuevoProducto (name, precio, cantidad);
 
 	if (id == 0)
 	    System.out.println ("El producto con id: " + id + "ya existe");
