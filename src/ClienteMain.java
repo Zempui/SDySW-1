@@ -9,8 +9,8 @@ class ClienteMain {
     @SuppressWarnings({ "removal", "deprecation", "resource" })
 	static public void main (String args[]) {
       
-        if (args.length != 2) {
-            System.err.println("Uso: ClienteMain hostregistro numPuertoRegistro ");
+        if (args.length != 4) {
+            System.err.println("Uso: ClienteMain hostregistro numPuertoRegistro nombreLog IdCliente");
             return;
         }
 
@@ -18,7 +18,9 @@ class ClienteMain {
             System.setSecurityManager(new SecurityManager());
 
         try {
-	    
+	    FabricaLog server = (FabricaLog) Naming.lookup("//" + args[0] + ":" + args[1] + "/Log");
+	    Log log = new Log(args[2],args[3]);
+	    ServicioLog c = server.crearLog(log);
 	    Tienda srv = (Tienda) Naming.lookup("//" + args[0] + ":" + args[1] + "/Tienda");
 	    //Creamos las cadenas para comparar que acción va a realizar el cliente
 	    Scanner EntradaDatos =new Scanner(System.in); //para pedir datos por línea de comando
@@ -54,6 +56,7 @@ class ClienteMain {
 			 	precio_compra = cantidad_producto_comprar*precio_compra;
 			 	p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
 			 	System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre() + " con un coste total: "+ precio_compra);
+				c.log(args[3] +" "+"ha comprado "+ p.getNombre());
 			} 
 			break;
 		     case 2:
