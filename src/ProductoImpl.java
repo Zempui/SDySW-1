@@ -5,27 +5,40 @@ public class ProductoImpl implements Producto, Serializable {
 	private static final long serialVersionUID = 1L;
 	private float precio;
 	private String nombre;
-	public ProductoImpl(float precio, String nombre) {
+	private int cantidad;
+	private int id;
+	public ProductoImpl(float precio, String nombre, int id, int cantidad) {
 		this.precio = precio;
 		this.nombre = nombre;
+		this.id = id;
+		this.cantidad = cantidad;
 	}
 	
 	@Override
 	public float getPrecio() {
-		// TODO Auto-generated method stub
 		return precio;
+
 	}
 
 	@Override
 	public String getNombre() {
-		// TODO Auto-generated method stub
 		return nombre;
+	}
+
+	@Override
+	public int getId(){
+		return id;
+	}
+
+	@Override
+	public int getCantidad(){
+		return cantidad;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductoImpl [precio=" + precio + ", nombre=" + nombre + "]";
 	}
-
+	
 
 }

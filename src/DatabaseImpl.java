@@ -125,7 +125,7 @@ public class DatabaseImpl implements Database {
 		List<Producto> resultado = new LinkedList<Producto>();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO;");
 		while (rs.next()) {
-			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
+			Producto producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			resultado.add(producto);
 		}
 		System.out.println("getInventario():\n"+inventarioToString());
@@ -155,12 +155,11 @@ public class DatabaseImpl implements Database {
 	
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
 		if (rs.next()) {
-			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
-			// Si este es el último, se elimina el producto
+			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			int cantidad = rs.getInt("CANTIDAD");
-			if(cantidad <= 1) {
-				// se elimina el producto
-				stmt.executeUpdate("DELETE FROM INVENTARIO WHERE ID="+id+";");
+			if(cantidad <= 0) {
+				// salta una excepción
+				throw new DBException("no se puede sacar una unidad del producto con id "+id);
 			}else {
 				// se decrementa el número de unidades en 1
 				stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(cantidad-1)+" WHERE ID="+id+";");
@@ -177,18 +176,18 @@ public class DatabaseImpl implements Database {
 		Producto producto = null;
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
-		if (rs.next() && cantidad>=1) {
-			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"));
-			// Si este es el último, se elimina el producto
-			int n = rs.getInt("CANTIDAD");
-			if(n == cantidad) {
-				// se elimina el producto
-				stmt.executeUpdate("DELETE FROM INVENTARIO WHERE ID="+id+";");
-			}else if (n>cantidad) {
-				// se decrementa el número de unidades en 1
-				stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(n-cantidad)+" WHERE ID="+id+";");
-			} else {
-				throw new DBException("getProducto -> 'cantidad' debe tener un valor inferior al inventario ("+cantidad+" > "+n+")");
+		if (rs.next() && cantidad >= 0) {
+			if (cantidad >=1){
+				producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
+				int n = rs.getInt("CANTIDAD");
+				if (n>=cantidad) {
+					// se decrementa el número de unidades
+					stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(n-cantidad)+" WHERE ID="+id+";");
+				} else {
+					throw new DBException("getProducto -> 'cantidad' debe tener un valor inferior al inventario ("+cantidad+" > "+n+")");
+				}
+			}else if (cantidad==0){
+				producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			}
 		} else if (cantidad <1) {
 			throw new DBException("getProducto -> 'cantidad' debe tener un valor positivo");
@@ -197,6 +196,23 @@ public class DatabaseImpl implements Database {
 		return producto;
 		
 	}
+	
+	@Override
+	public int getCantidadProducto (int id) throws Exception{
+                int cantidad = 0;
+        
+                ResultSet rs = stmt.executeQuery("SELECT CANTIDAD FROM INVENTARIO WHERE ID="+id);
+                if (rs.next()) {
+                	cantidad = rs.getInt("CANTIDAD");
+                } else{
+			throw new DBException("el producto con id "+id+" no existe");
+		}
+
+                System.out.println("getCantidadProducto("+id+") -> "+cantidad);
+                return cantidad;
+
+	}
+
 
 	@Override
 	public int getId(String nombre) throws DBException, Exception {
@@ -211,6 +227,13 @@ public class DatabaseImpl implements Database {
 		return id;
 		
 	}
+	
+	@Override
+	public float getPrecio (int id) throws Exception{
+		//No hace nada
+		return 0.0;
+	}
+
 
 	@Override
 	public void addProducto(int id) throws Exception, DBException {

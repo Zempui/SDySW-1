@@ -44,7 +44,7 @@ class ClienteMain {
 			 int id_producto_compra = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a comprar: ");
 			 int cantidad_producto_comprar = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_compra);
+			 p = srv.getProducto(id_producto_compra, 0);
 			 float precio_compra = p.getPrecio();
 			 precio_compra = cantidad_producto_comprar*precio_compra;
 			 p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
@@ -54,10 +54,17 @@ class ClienteMain {
 			 System.out.println("Has seleccionado la opcion de LISTAR PRODUCTOS\n");
 			 List <Producto> listaProducto;
 			    listaProducto = srv.obtenerProductos();
-			    for(Producto i: listaProducto){
-				String nombre = i.getNombre();
-				System.out.println(nombre + ":" + i.getPrecio());
-			    }
+			String resultado = "◢__ID__.________NOMBRE________.__PRECIO__._CANTIDAD_◣";
+
+			
+			for(Producto i: listaProducto) {
+				String fila = String.format("| %4d | %-20s | %8.2f | %-8d |", 
+							i.getId(),i.getNombre(), 
+							i.getPrecio(),i.getCantidad());
+				resultado = resultado +"\n"+fila;
+			}
+
+			 System.out.println(resultado);
 			 break;
 		     case 3:
 			 System.out.println("Has seleccionado la opcion de DEVOLVER\n");
@@ -65,7 +72,7 @@ class ClienteMain {
 			 int id_producto_devolver = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a devolver: ");
 			 int cantidad_producto_devolver = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_devolver);
+			 p = srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver);
 			 float precio_devolver = p.getPrecio();
 			 precio_devolver = cantidad_producto_devolver*precio_devolver;
 	
@@ -75,13 +82,13 @@ class ClienteMain {
 			 break;
 		     case 4:
 				 System.out.println("Has seleccionado la opcion de INTRODUCIR NUEVO PRODUCTO\n");
+				 EntradaDatos.nextLine();
+				 System.out.println("Ingrese el nombre del producto a introducir: ");
+				 String nombre_producto_introducir = EntradaDatos.nextLine();
 				 System.out.println("Ingrese la cantidad del producto a introducir: ");
 				 int cantidad_producto_introducir = EntradaDatos.nextInt();
 				 System.out.println("Ingrese el precio del producto a introducir: ");
 				 float precio_producto_introducir = EntradaDatos.nextFloat();
-				 EntradaDatos.nextLine();
-				 System.out.println("Ingrese el nombre del producto a introducir: ");
-				 String nombre_producto_introducir = EntradaDatos.nextLine();
 				 int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
 				 System.out.println("Se ha inntroducido correctamente el nuevo producto con id: "+ nuevoProducto);
 				 break;
@@ -91,7 +98,11 @@ class ClienteMain {
 		     default:
 			 System.out.println("Solo números entre 1 y 5");
 		     }
-		 } catch (Exception e) {
+		 }
+		catch (Exception DBException) {
+		   System.err.println("Error en el acceso a la base de datos\n");
+		 } 
+		catch (Exception e) {
 		     System.err.println("Excepcion en ClienteTienda:");
 		     e.printStackTrace();
 		 }

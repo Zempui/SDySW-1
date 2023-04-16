@@ -55,12 +55,29 @@ public interface Database {
 	public Producto getProducto (int id, int cantidad) throws DBException, Exception;
 	
 	/**
+	 * Devuelve la cantidad de un producto disponible en la base de datos
+	 * @param id
+	 * @return cantidad
+	 * @throws Exception
+	 */
+	public int getCantidadProducto (int id) throws Exception;
+
+
+	/**
 	 * Devuelve el ID del producto con el nombre proporcionado
 	 * @param nombre
 	 * @return id
 	 */
 	public int 		getId (String nombre) throws DBException, Exception;
-	
+
+	/**
+	 * Devuelve el precio de un producto con el ID proporcionado
+	 * @param id
+         * @throws Exception
+	 * @return precio
+	 */
+	public float getPrecio(int id) throws Exception;
+
 	/**
 	 * Añade una unidad de un producto al inventario
 	 * @param id
