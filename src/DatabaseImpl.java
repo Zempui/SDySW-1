@@ -176,14 +176,18 @@ public class DatabaseImpl implements Database {
 		Producto producto = null;
 
 		ResultSet rs = stmt.executeQuery("SELECT * FROM INVENTARIO WHERE ID="+id);
-		if (rs.next() && cantidad>=1) {
-			producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
-			int n = rs.getInt("CANTIDAD");
-			if (n>=cantidad) {
-				// se decrementa el número de unidades
-				stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(n-cantidad)+" WHERE ID="+id+";");
-			} else {
-				throw new DBException("getProducto -> 'cantidad' debe tener un valor inferior al inventario ("+cantidad+" > "+n+")");
+		if (rs.next() && cantidad >= 0) {
+			if (cantidad >=1){
+				producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
+				int n = rs.getInt("CANTIDAD");
+				if (n>=cantidad) {
+					// se decrementa el número de unidades
+					stmt.executeUpdate("UPDATE INVENTARIO SET CANTIDAD="+(n-cantidad)+" WHERE ID="+id+";");
+				} else {
+					throw new DBException("getProducto -> 'cantidad' debe tener un valor inferior al inventario ("+cantidad+" > "+n+")");
+				}
+			}else if (cantidad==0){
+				producto = new ProductoImpl(rs.getFloat("PRECIO"), rs.getString("NOMBRE"), rs.getInt("ID"), rs.getInt("CANTIDAD"));
 			}
 		} else if (cantidad <1) {
 			throw new DBException("getProducto -> 'cantidad' debe tener un valor positivo");
@@ -223,6 +227,13 @@ public class DatabaseImpl implements Database {
 		return id;
 		
 	}
+	
+	@Override
+	public float getPrecio (int id) throws Exception{
+		//No hace nada
+		return 0.0;
+	}
+
 
 	@Override
 	public void addProducto(int id) throws Exception, DBException {
