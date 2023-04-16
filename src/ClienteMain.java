@@ -23,6 +23,7 @@ class ClienteMain {
 	    //Creamos las cadenas para comparar que acción va a realizar el cliente
 	    Scanner EntradaDatos =new Scanner(System.in); //para pedir datos por línea de comando
 	    boolean salir = false;
+	    boolean salir_2 = false
 	    int opcion;
 	    Producto p;
 	    
@@ -44,12 +45,17 @@ class ClienteMain {
 			 int id_producto_compra = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a comprar: ");
 			 int cantidad_producto_comprar = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_compra, 0);
-			 float precio_compra = p.getPrecio();
-			 precio_compra = cantidad_producto_comprar*precio_compra;
-			 p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
-			 System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre() + "con un coste total: "+ precio_compra);
-			 break;
+			if(cantidad_producto_comprar < 0){
+				System.out.println("No se puede introducir un número negativo\n");	
+			}
+			else{	
+			 	p = srv.getProducto(id_producto_compra, 0);
+			 	float precio_compra = p.getPrecio();
+			 	precio_compra = cantidad_producto_comprar*precio_compra;
+			 	p = srv.compraProducto(id_producto_compra, cantidad_producto_comprar, precio_compra);
+			 	System.out.println("Se ha efectuado la compra del producto: "+ p.getNombre() + "con un coste total: "+ precio_compra);
+			} 
+			break;
 		     case 2:
 			 System.out.println("Has seleccionado la opcion de LISTAR PRODUCTOS\n");
 			 List <Producto> listaProducto;
@@ -64,7 +70,7 @@ class ClienteMain {
 				resultado = resultado +"\n"+fila;
 			}
 
-			 System.out.println(resultado);
+			 System.out.println(resultado+"\n");
 			 break;
 		     case 3:
 			 System.out.println("Has seleccionado la opcion de DEVOLVER\n");
@@ -72,22 +78,31 @@ class ClienteMain {
 			 int id_producto_devolver = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a devolver: ");
 			 int cantidad_producto_devolver = EntradaDatos.nextInt();
-			 p = srv.getProducto(id_producto_devolver, 0);
-			 float precio_devolver = p.getPrecio();
-			 precio_devolver = cantidad_producto_devolver*precio_devolver;
-	
-			 srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver, precio_devolver);
-			 System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
-			 
+			 if(cantidad_producto_devolver < 0){
+				System.out.println("No se puede introducir un número negativo\n");	
+			}
+			else{
+			 	p = srv.getProducto(id_producto_devolver, 0);
+			 	float precio_devolver = p.getPrecio();
+			 	precio_devolver = cantidad_producto_devolver*precio_devolver;
+			 	if(precio_devolver < 0){
+					System.out.println("No se puede introducir un número negativo\n");
+				}
+				else{
+				 	srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver, precio_devolver);
+					 System.out.println("Se ha efectuado la devolución del producto: "+ id_producto_devolver);
+				}
+			 }
 			 break;
 		       case 4:
 				 System.out.println("Has seleccionado la opcion de OPCIONES DE ADMINISTRACION\n");
-				 while(!salir){
+				 while(!salir_2){
+	
 		 				System.out.println("1. Añadir nuevo producto");
 		 				System.out.println("2. Añadir producto");
-		 				System.out.println("3. Eliminar procucto");
+		 				System.out.println("3. Eliminar producto");
 		 				System.out.println("4. Ver flujo de caja");
-		 				System.out.println("5. Salir");
+						System.out.println("5. Salir");
 						try{
 						   	  System.out.println("Elija una de las anteriores opciones");
 		     					  opcion = EntradaDatos.nextInt();
@@ -99,14 +114,22 @@ class ClienteMain {
 				 					String nombre_producto_introducir = EntradaDatos.nextLine();
 				 					System.out.println("Ingrese la cantidad del producto a introducir: ");
 				 					int cantidad_producto_introducir = EntradaDatos.nextInt();
-				 					System.out.println("Ingrese el precio del producto a introducir: ");
-				 					float precio_producto_introducir = EntradaDatos.nextFloat();
-				 					int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
-									if (nuevoProducto == 0){
-										System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
-									}else{ 
-				 						System.out.println("Se ha introducido correctamente el nuevo producto con id: "+ nuevoProducto);
+
+									if (cantidad_producto_introducir < 0){
+										System.out.println("No se puede introducir un número negativo\n");
 									}
+									else{
+										System.out.println("Ingrese el precio del producto a introducir: ");
+				 						float precio_producto_introducir = EntradaDatos.nextFloat();
+				 						int nuevoProducto = srv.nuevoProducto(nombre_producto_introducir,precio_producto_introducir ,cantidad_producto_introducir);
+										if (nuevoProducto == 0){
+											System.out.println("Se ha introducido erróneamente el nuevo producto con id: "+ nuevoProducto);
+										}else{ 
+				 							System.out.println("Se ha introducido correctamente el nuevo producto con id: "+ nuevoProducto);
+										}
+									}
+				 			
+
 									break;
 								case 2:
 									 System.out.println("Has seleccionado la opcion de AÑADIR PRODUCTO\n");
@@ -114,11 +137,18 @@ class ClienteMain {
 									 int id_producto_añadir = EntradaDatos.nextInt();
 									 System.out.println("Ingrese la cantidad del producto a añadir: ");
 								 	int cantidad_producto_añadir = EntradaDatos.nextInt();
-								 	p = srv.getProducto(id_producto_añadir, 0);
-								 	float precio_añadir = p.getPrecio();
-									precio_añadir = cantidad_producto_añadir*precio_añadir;
-								 	srv.devuelveProducto(id_producto_añadir, cantidad_producto_añadir, precio_añadir);
-								 	System.out.println("Se ha introducido el producto: "+ id_producto_añadir);
+
+									if (cantidad_producto_añadir < 0){
+										System.out.println("No se puede introducir un número negativo\n");
+									}
+									else{
+								 		p = srv.getProducto(id_producto_añadir, 0);
+								 		float precio_añadir = p.getPrecio();
+										precio_añadir = cantidad_producto_añadir*precio_añadir;
+								 		srv.devuelveProducto(id_producto_añadir, cantidad_producto_añadir, precio_añadir);
+								 		System.out.println("Se ha introducido el producto: "+ id_producto_añadir);
+									}
+
 								 	break;
 								case 3:
 									 System.out.println("Has seleccionado la opcion de ELIMINAR\n");
@@ -130,25 +160,28 @@ class ClienteMain {
 								case 4:
 									 System.out.println("Has seleccionado la opcion de VER FLUJO DE CAJA\n");
 			 						float flujo_de_caja = srv.obtenerCashFlow();
-								 	System.out.println("El flujo de caja es: " + flujo_de_caja);
+
+								 	System.out.println("El dinero en caja es: " + flujo_de_caja);
 								 	break;
 		     						case 5:
-				 					salir = true;
+				 					salir_2 = true;
+
 				 					break;
 		  					   	default:
 			 						System.out.println("Solo números entre 1 y 5");
 						    	 }
-							
-						}catch (DBException e) {
-                                                                        System.err.println("Error en el acceso a la base de datos: \n\t"+e.getClass().getName()+": "+e.getMessage());
-                                                                } 
-                                                        catch (Exception e) {
-                                                                         System.err.println("Excepcion en ClienteTienda:");
-                                                                         e.printStackTrace();
-                                                         }
 
+						}
+						catch (DBException e) {
+		   						System.err.println("Error en el acceso a la base de datos: \n\t"+e.getClass().getName()+": "+e.getMessage());
+							} 
+						catch (Exception e) {
+		    						 System.err.println("Excepcion en ClienteTienda:");
+		    						 e.printStackTrace();
+						 }
 	
-				 	     }	
+				 	     }			
+
 
 		     case 5:
 				 salir = true;
