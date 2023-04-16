@@ -72,7 +72,7 @@ class ClienteMain {
 			 int id_producto_devolver = EntradaDatos.nextInt();
 			 System.out.println("Ingrese la cantidad del producto a devolver: ");
 			 int cantidad_producto_devolver = EntradaDatos.nextInt();
-			 p = srv.devuelveProducto(id_producto_devolver, cantidad_producto_devolver);
+			 p = srv.getProducto(id_producto_devolver, 0);
 			 float precio_devolver = p.getPrecio();
 			 precio_devolver = cantidad_producto_devolver*precio_devolver;
 	

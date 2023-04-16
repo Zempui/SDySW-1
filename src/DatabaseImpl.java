@@ -231,7 +231,8 @@ public class DatabaseImpl implements Database {
 	@Override
 	public float getPrecio (int id) throws Exception{
 		//No hace nada
-		return 0.0;
+		float a = 0;
+		return a;
 	}
 
 
